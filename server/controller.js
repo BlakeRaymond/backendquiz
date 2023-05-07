@@ -1,3 +1,6 @@
+let charactersDb = require('./db.json')
+let globalId = 0
+
 module.exports = {
     getCompliment: (req, res) => {
         const compliments = [
@@ -37,13 +40,13 @@ module.exports = {
         res.status(200).send(randomName)
     },
 
-    getClass: (req, res) => {
-        const classes = ["Tech Bro", "Hipster", "Lady Boss", "Chaos Agent", "Financier", "Socialite", "Apparition", "Titled Constructor", "Drone", "Zealot", "Ignoramus", "Inte-wreck-tual"]
+    getClique: (req, res) => {
+        const cliques = ["Tech Bro", "Hipster", "Lady Boss", "Chaos Agent", "Financier", "Socialite", "Apparition", "Titled Constructor", "Drone", "Zealot", "Ignoramus", "Inte-wreck-tual"]
 
-        let randomIndex = Math.floor(Math.random() * classes.length);
-        let randomClass = classes[randomIndex];
+        let randomIndex = Math.floor(Math.random() * cliques.length);
+        let randomClique = cliques[randomIndex];
 
-        res.status(200).send(randomClass)
+        res.status(200).send(randomClique)
     },
 
     getHomeland: (req, res) => {
@@ -51,8 +54,31 @@ module.exports = {
 
         let randomIndex = Math.floor(Math.random() * homelands.length);
         let randomHomeland = homelands[randomIndex];
-
         res.status(200).send(randomHomeland)
+    },
+
+    createCharacter: (req, res) => {
+
+        let { Name, Clique, Hometown, Fortune, Compliment } = req.body
+
+        let newChar = {
+            Id: globalId,
+            Name,
+            Clique,
+            Hometown,
+            Fortune,
+            Compliment
+        }
+        
+        console.log(newChar)
+
+        charactersDb.push(newChar)
+        console.log(charactersDb)
+
+        res.status(200).send(charactersDb)
+
+        globalId++
+        
     },
 
 };
